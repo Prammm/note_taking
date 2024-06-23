@@ -181,7 +181,7 @@ class HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueGrey,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -197,7 +197,7 @@ class HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Container(
-        color: Colors.blue,
+        color: Colors.blueGrey,
         child: ListView.builder(
           itemCount: groupedNotes.length,
           itemBuilder: (context, index) {
@@ -255,13 +255,13 @@ class HomeScreenState extends State<HomeScreen> {
                             child: IconButton(
                               icon: Icon(
                                 note.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                                color: note.isPinned ? Colors.blue : Colors.grey,
+                                color: note.isPinned ? Colors.blueGrey : Colors.grey,
                               ),
                               onPressed: () => _togglePin(note),
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete, color: Colors.blue),
+                            icon: Icon(Icons.delete, color: Colors.blueGrey),
                             onPressed: () => _deleteNoteConfirmation(note),
                           ),
                         ],
@@ -278,7 +278,7 @@ class HomeScreenState extends State<HomeScreen> {
         onPressed: () => _navigateToNoteScreen(null),
         child: Icon(Icons.add),
         backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
+        foregroundColor: Colors.blueGrey,
       ),
     );
   }

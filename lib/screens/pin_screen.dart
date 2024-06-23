@@ -37,7 +37,7 @@ class _PinScreenState extends State<PinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueGrey,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -108,7 +108,7 @@ class _PinScreenState extends State<PinScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
+                          foregroundColor: Colors.blueGrey,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -130,7 +130,7 @@ class _PinScreenState extends State<PinScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
+                          foregroundColor: Colors.blueGrey,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -185,7 +185,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueGrey,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -243,7 +243,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
               onPressed: _savePin,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
+                foregroundColor: Colors.blueGrey,
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -283,7 +283,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Reset PIN'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueGrey,
         foregroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.white),
         leading: IconButton(
@@ -293,7 +293,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
           },
         ),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.blueGrey,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -351,7 +351,7 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
               onPressed: _resetPin,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
+                foregroundColor: Colors.blueGrey,
                 minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),

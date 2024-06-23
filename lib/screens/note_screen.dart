@@ -144,11 +144,11 @@ class _NoteScreenState extends State<NoteScreen> {
             onPressed: _saveNote,
           ),
         ],
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueGrey,
         foregroundColor: Colors.white,
       ),
       body: Container(
-        color: Colors.blue,
+        color: Colors.blueGrey,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -165,16 +165,16 @@ class _NoteScreenState extends State<NoteScreen> {
                       controller: titleController,
                       decoration: InputDecoration(
                         labelText: 'Title',
-                        labelStyle: TextStyle(color: Colors.blue),
+                        labelStyle: TextStyle(color: Colors.blueGrey),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -184,16 +184,16 @@ class _NoteScreenState extends State<NoteScreen> {
                       controller: contentController,
                       decoration: InputDecoration(
                         labelText: 'Content',
-                        labelStyle: TextStyle(color: Colors.blue),
+                        labelStyle: TextStyle(color: Colors.blueGrey),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue),
+                          borderSide: BorderSide(color: Colors.blueGrey),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
