@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/note.dart';
 import 'note_screen.dart';
 import 'settings_screen.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class HomeScreenState extends State<HomeScreen> {
       _filterNotes(_searchController.text);
     });
 
-    // Add listener to update notes list when changes occur in the box
     noteBox.listenable().addListener(() {
       _filterNotes(_searchController.text);
     });
@@ -103,8 +103,48 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  Map<String, List<Note>> _groupNotesByTimePeriod(List<Note> notes) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(Duration(days: 1));
+    final last7Days = today.subtract(Duration(days: 7));
+    final last30Days = today.subtract(Duration(days: 30));
+
+    Map<String, List<Note>> groupedNotes = {
+      'Today': [],
+      'Yesterday': [],
+      'Last 7 days': [],
+      'Last 30 days': [],
+      for (int i = 1; i <= 12; i++) DateFormat('MMMM').format(DateTime(0, i)): [],
+      for (int i = now.year; i >= 2000; i--) i.toString(): [],
+    };
+
+    for (var note in notes) {
+      final noteDate = note.updatedAt;
+
+      if (noteDate.isAfter(today)) {
+        groupedNotes['Today']?.add(note);
+      } else if (noteDate.isAfter(yesterday)) {
+        groupedNotes['Yesterday']?.add(note);
+      } else if (noteDate.isAfter(last7Days)) {
+        groupedNotes['Last 7 days']?.add(note);
+      } else if (noteDate.isAfter(last30Days)) {
+        groupedNotes['Last 30 days']?.add(note);
+      } else if (noteDate.year == now.year) {
+        final month = DateFormat('MMMM').format(noteDate);
+        groupedNotes[month]?.add(note);
+      } else {
+        groupedNotes[noteDate.year.toString()]?.add(note);
+      }
+    }
+
+    return groupedNotes;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final groupedNotes = _groupNotesByTimePeriod(filteredNotes);
+
     return Scaffold(
       appBar: AppBar(
         title: ValueListenableBuilder<TextEditingValue>(
@@ -158,69 +198,78 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         color: Colors.blue,
-        child: ValueListenableBuilder(
-          valueListenable: noteBox.listenable(),
-          builder: (context, Box<Note> box, _) {
-            if (filteredNotes.isEmpty) {
-              return Center(
-                child: Text(
-                  'No notes found',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+        child: ListView.builder(
+          itemCount: groupedNotes.length,
+          itemBuilder: (context, index) {
+            final key = groupedNotes.keys.elementAt(index);
+            final notes = groupedNotes[key];
+
+            if (notes == null || notes.isEmpty) return Container();
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    key,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              );
-            }
-            return ListView.builder(
-              itemCount: filteredNotes.length,
-              itemBuilder: (context, index) {
-                final note = filteredNotes[index];
-                return Card(
-                  color: note.color,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      note.title,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ...notes.map((note) {
+                  return Card(
+                    color: note.color,
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 5),
-                        Text(
-                          'Created: ${note.createdAt}',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        Text(
-                          'Updated: ${note.updatedAt}',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                    onTap: () => _navigateToNoteScreen(note),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Transform.rotate(
-                          angle: 0.7,
-                          child: IconButton(
-                            icon: Icon(
-                              note.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                              color: note.isPinned ? Colors.blue : Colors.grey,
-                            ),
-                            onPressed: () => _togglePin(note),
+                    child: ListTile(
+                      title: Text(
+                        note.title,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 5),
+                          Text(
+                            'Created: ${note.createdAt}',
+                            style: TextStyle(color: Colors.black54),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: Colors.blue),
-                          onPressed: () => _deleteNoteConfirmation(note),
-                        ),
-                      ],
+                          Text(
+                            'Updated: ${note.updatedAt}',
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                      onTap: () => _navigateToNoteScreen(note),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Transform.rotate(
+                            angle: 0.7,
+                            child: IconButton(
+                              icon: Icon(
+                                note.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                                color: note.isPinned ? Colors.blue : Colors.grey,
+                              ),
+                              onPressed: () => _togglePin(note),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.blue),
+                            onPressed: () => _deleteNoteConfirmation(note),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                }).toList(),
+              ],
             );
           },
         ),
