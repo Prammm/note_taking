@@ -9,7 +9,6 @@ void main() async {
   Hive.registerAdapter(NoteAdapter());
   var box = await Hive.openBox<Note>('notes');
 
-  // Ensure all existing notes have the isPinned field initialized
   for (var note in box.values) {
     await note.save();
   }

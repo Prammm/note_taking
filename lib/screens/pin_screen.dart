@@ -101,7 +101,7 @@ class _PinScreenState extends State<PinScreen> {
                 itemCount: 12,
                 itemBuilder: (context, index) {
                   if (index == 9) {
-                    return SizedBox.shrink(); // Kosongkan tombol send
+                    return SizedBox.shrink(); 
                   } else if (index == 11) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),

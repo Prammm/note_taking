@@ -1,4 +1,4 @@
-import 'dart:async'; // Import the dart:async library for Timer
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/note.dart';
